@@ -4,7 +4,8 @@
   "description": "Ignite certificate",
   "main": "serverless.yml",
   "scripts": {
-    "dev": "sls offline start"
+    "dev": "sls offline start",
+    "deploy": "sls deploy -v"
   },
   "dependencies": {
     "@middy/core": "^2.5.3",

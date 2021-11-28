@@ -9,6 +9,22 @@ provider:
   name: aws
   runtime: nodejs14.x
   region: us-east-1
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:PutItem
+          Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/users_certificates"
+        - Effect: Allow
+          Action:
+            - "s3:*"
+          Resource: "*"
+
+package:
+  patterns:
+    - "src/templates"
 
 custom:
   esbuild:
@@ -35,6 +51,13 @@ functions:
       - http:
           method: "POST"
           path: "/generateCertificate"
+          cors: true
+  verifyCertificate:
+    handler: src/functions/verifyCertificate.handle
+    events:
+      - http:
+          method: "GET"
+          path: "/verifyCertificate/{id}"
           cors: true
 
 resources:
